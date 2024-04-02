@@ -67,6 +67,50 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "Test private route",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjFlNGViNDAzLWEwMjAtNGRlNi1iOGE5LWIyZGU0NWVkZWUzMiIsImlhdCI6MTcxMjA5NzA1NSwiZXhwIjoxNzEyMTA0MjU1fQ.2a_FHCkoS_0lniA0XVkak5Wypd5JVQEw50v2Ntk4fQ8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"ramirez7358@gmail.com\",\n    \"password\": \"#Fre123456789\",\n    \"fullName\": \"Brian Ramirez\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/auth/private",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"auth",
+						"private"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }

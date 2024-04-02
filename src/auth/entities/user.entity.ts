@@ -24,7 +24,7 @@ export class User {
   isActive: boolean;
 
   @Column('text', { array: true, default: ['buyer'] })
-  role: string[];
+  roles: string[];
 
   @BeforeInsert()
   checkFieldsBeforeInsert() {

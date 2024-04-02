@@ -15,10 +15,11 @@ import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
-  @InjectRepository(User)
-  private readonly userRepository: Repository<User>;
-
-  private readonly jwtService: JwtService;
+  constructor(
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+    private readonly jwtService: JwtService,
+  ) {}
 
   async create(createUserDto: CreateUserDTO) {
     try {
@@ -35,7 +36,7 @@ export class AuthService {
 
       return {
         ...user,
-        token: this.getJwtToken({ email: user.email }),
+        token: this.getJwtToken({ id: user.id }),
       };
     } catch (error) {
       this.handleDBErrors(error);
@@ -48,20 +49,22 @@ export class AuthService {
 
       const user = await this.userRepository.findOne({
         where: { email },
-        select: { email: true, password: true },
+        select: { email: true, password: true, id: true },
       });
 
       if (!user)
         throw new UnauthorizedException('Credentials are not valid (email)');
 
-      if (bcrypt.compareSync(password, user.password))
+      if (!bcrypt.compareSync(password, user.password))
         throw new UnauthorizedException('Credentials are not valid (password)');
 
       return {
         ...user,
-        token: this.getJwtToken({ email: user.email }),
+        token: this.getJwtToken({ id: user.id }),
       };
-    } catch (error) {}
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   private getJwtToken(payload: JwtPayload) {

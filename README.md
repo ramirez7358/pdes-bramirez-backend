@@ -32,6 +32,17 @@
 $ yarn install
 ```
 
+## Create env file
+
+- Clone the ```.env.template`` file and rename it to ```.env```.
+- Change environment variables
+
+## Database set up
+
+```
+docker-compose up -d
+```
+
 ## Running the app
 
 ```bash

@@ -14,7 +14,7 @@ $ yarn install
 
 ## Create env file
 
-- Clone the ```.env.template`` file and rename it to ```.env```.
+- Clone the ``.env.template`` file and rename it to ``.env``.
 - Change environment variables
 
 ## Database set up

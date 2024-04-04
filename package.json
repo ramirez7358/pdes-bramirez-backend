@@ -2,7 +2,11 @@
   "name": "apc-pdas-bramirez",
   "version": "0.0.1",
   "description": "",
-  "author": "",
+  "author": "Brian Ramirez",
+  "engines": {
+    "node": "v20.12.1",
+    "yarn": "1.22.19"
+  },
   "private": true,
   "license": "UNLICENSED",
   "scripts": {

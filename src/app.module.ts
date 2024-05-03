@@ -6,7 +6,9 @@ import { MeliModule } from './meli/meli.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     AuthModule,
     TypeOrmModule.forRoot({
       type: 'postgres',

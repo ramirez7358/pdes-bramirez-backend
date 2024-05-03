@@ -3,10 +3,6 @@
   "version": "0.0.1",
   "description": "",
   "author": "Brian Ramirez",
-  "engines": {
-    "node": "v20.12.1",
-    "yarn": "1.22.19"
-  },
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
@@ -24,6 +20,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@nestjs/axios": "^3.0.2",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.2.1",
     "@nestjs/core": "^10.0.0",
@@ -32,6 +29,7 @@
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/typeorm": "^10.0.2",
+    "axios": "^1.6.8",
     "bcrypt": "^5.1.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",

@@ -1,9 +1,12 @@
 import { HttpModule } from '@nestjs/axios';
 import { Module } from '@nestjs/common';
 import { MeliService } from './meli.service';
+import { MeliTokens } from './entities/meli-tokens.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
   imports: [
+    TypeOrmModule.forFeature([MeliTokens]),
     HttpModule.registerAsync({
       useFactory: () => ({
         timeout: 5000,
@@ -12,5 +15,6 @@ import { MeliService } from './meli.service';
     }),
   ],
   providers: [MeliService],
+  exports: [TypeOrmModule],
 })
 export class MeliModule {}

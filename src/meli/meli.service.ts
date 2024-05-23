@@ -1,11 +1,13 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MeliTokens } from './entities/meli-tokens.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
 export class MeliService {
+  private readonly logger = new Logger('MeliService');
+
   private readonly BASE_URL: string =
     'https://api.mercadolibre.com/oauth/token';
 
@@ -18,7 +20,7 @@ export class MeliService {
     private readonly httpService: HttpService,
   ) {
     this.loadKeys().then((_) => {
-      console.log('The keys have been successfully loaded!');
+      this.logger.log('The keys have been successfully loaded!');
     });
   }
 
@@ -28,7 +30,7 @@ export class MeliService {
     if (meliTokens) {
       this.accessToken = meliTokens.token;
       this.refreshToken = meliTokens.refresh_token;
-      console.log(
+      this.logger.log(
         'Mercadolibre access tokens have been obtained from the database.',
       );
       return;

@@ -3,7 +3,7 @@ name: CI for NestJS App
 on:
   pull_request:
     branches:
-      - main
+      - develop
 
 jobs:
   build:

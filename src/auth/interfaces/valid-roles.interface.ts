@@ -1,4 +1,4 @@
 export enum ValidRoles {
-    admin = 'admin',
-    buyer = 'buyer'
+  admin = 'admin',
+  buyer = 'buyer',
 }

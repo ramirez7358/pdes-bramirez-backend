@@ -20,11 +20,10 @@ export class AuthController {
 
   @Get('private')
   @Auth(ValidRoles.admin, ValidRoles.buyer)
-  testingPrivateRoute(
-  ) {
+  testingPrivateRoute() {
     return {
       ok: true,
-      message: 'Hi world private'
-    }
+      message: 'Hi world private',
+    };
   }
 }

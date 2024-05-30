@@ -3,8 +3,10 @@ import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MeliTokens } from './entities/meli-tokens.entity';
 import { Repository } from 'typeorm';
-import { Observable, catchError, map, throwError } from 'rxjs';
-import { Cron, CronExpression } from '@nestjs/schedule';
+import { Observable, catchError, firstValueFrom, map, throwError } from 'rxjs';
+import { Cron } from '@nestjs/schedule';
+import { AxiosResponse } from 'axios';
+import { MeliCategory } from './interfaces/meli.interfaces';
 
 interface TokenResponse {
   access_token: string;
@@ -29,6 +31,24 @@ export class MeliService {
     this.loadKeys().catch((error) => {
       this.logger.error('Failed to load keys', error);
     });
+  }
+
+  async getCategories(): Promise<Array<{ id: string; name: string }>> {
+    try {
+      const observable = this.httpService
+        .get(`${this.BASE_URL}/categories`)
+        .pipe(map((response) => response.data));
+
+      const response = await firstValueFrom(observable);
+
+      return response.map((category: MeliCategory) => ({
+        id: category.id,
+        name: category.name,
+      }));
+    } catch (error) {
+      this.logger.error('Failed to fetch categories', error);
+      throw new Error('Failed to fetch categories');
+    }
   }
 
   @Cron('0 0 */5 * * *')

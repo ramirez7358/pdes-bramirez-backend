@@ -17,6 +17,6 @@ import { ScheduleModule } from '@nestjs/schedule';
     }),
   ],
   providers: [MeliService],
-  exports: [TypeOrmModule],
+  exports: [TypeOrmModule, MeliService],
 })
 export class MeliModule {}

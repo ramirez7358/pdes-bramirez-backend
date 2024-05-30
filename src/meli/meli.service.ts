@@ -5,8 +5,8 @@ import { MeliTokens } from './entities/meli-tokens.entity';
 import { Repository } from 'typeorm';
 import { Observable, catchError, firstValueFrom, map, throwError } from 'rxjs';
 import { Cron } from '@nestjs/schedule';
-import { AxiosResponse } from 'axios';
-import { MeliCategory } from './interfaces/meli.interfaces';
+import { MeliCategory, MeliProduct } from './interfaces/meli.interfaces';
+import { PaginationDto } from 'src/common/pagination.dto';
 
 interface TokenResponse {
   access_token: string;
@@ -31,6 +31,26 @@ export class MeliService {
     this.loadKeys().catch((error) => {
       this.logger.error('Failed to load keys', error);
     });
+  }
+
+  async getProductsByCategory(
+    categoryId: string,
+    paginationDTO: PaginationDto,
+  ): Promise<Array<MeliProduct>> {
+    try {
+      const observable = this.httpService
+        .get(
+          `${this.BASE_URL}/search?category=${categoryId}&limit=${paginationDTO.limit}&offset=${paginationDTO.offset}`,
+        )
+        .pipe(map((response) => response.data));
+
+      const response = await firstValueFrom(observable);
+
+      return response.results;
+    } catch (error) {
+      this.logger.error('Failed to fetch products', error);
+      throw new Error('Failed to fetch products');
+    }
   }
 
   async getCategories(): Promise<Array<{ id: string; name: string }>> {

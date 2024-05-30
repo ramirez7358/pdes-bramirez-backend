@@ -3,9 +3,11 @@ import { Module } from '@nestjs/common';
 import { MeliService } from './meli.service';
 import { MeliTokens } from './entities/meli-tokens.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ScheduleModule } from '@nestjs/schedule';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     TypeOrmModule.forFeature([MeliTokens]),
     HttpModule.registerAsync({
       useFactory: () => ({

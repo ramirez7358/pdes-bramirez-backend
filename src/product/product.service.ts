@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PaginationDto } from 'src/common/pagination.dto';
-import { MeliService } from 'src/meli/meli.service';
+import { MeliService } from '../meli/meli.service';
 
 @Injectable()
 export class ProductService {

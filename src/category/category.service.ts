@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { MeliService } from 'src/meli/meli.service';
+import { MeliService } from '../meli/meli.service';
 
 @Injectable()
 export class CategoryService {

@@ -3,6 +3,8 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MeliModule } from './meli/meli.module';
+import { ProductModule } from './product/product.module';
+import { CategoryModule } from './category/category.module';
 
 @Module({
   imports: [
@@ -21,6 +23,8 @@ import { MeliModule } from './meli/meli.module';
       synchronize: true,
     }),
     MeliModule,
+    ProductModule,
+    CategoryModule,
   ],
   controllers: [],
   providers: [],

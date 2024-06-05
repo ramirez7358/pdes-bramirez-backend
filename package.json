@@ -1,5 +1,5 @@
 {
-  "name": "apc-pdas-bramirez",
+  "name": "apc-pdes-bramirez",
   "version": "0.0.1",
   "description": "",
   "author": "Brian Ramirez",
@@ -29,6 +29,7 @@
     "@nestjs/passport": "^10.0.3",
     "@nestjs/platform-express": "^10.0.0",
     "@nestjs/schedule": "^4.0.2",
+    "@nestjs/swagger": "^7.3.1",
     "@nestjs/typeorm": "^10.0.2",
     "axios": "^1.6.8",
     "bcrypt": "^5.1.1",

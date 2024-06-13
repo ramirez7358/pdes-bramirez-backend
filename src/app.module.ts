@@ -7,6 +7,7 @@ import { ProductModule } from './product/product.module';
 import { CategoryModule } from './category/category.module';
 import { BookmarkModule } from './bookmark/bookmark.module';
 import { CustomNamingStrategy } from './naming-strategy';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { CustomNamingStrategy } from './naming-strategy';
     ProductModule,
     CategoryModule,
     BookmarkModule,
+    PassportModule,
   ],
   controllers: [],
   providers: [],

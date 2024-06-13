@@ -10,7 +10,10 @@ export class Bookmark {
   @ManyToOne(() => User, (user) => user.bookmarks)
   user: User;
 
-  @Column('text')
+  @Column('varchar')
+  name: string;
+
+  @Column('varchar')
   meliProductId: string;
 
   @Column('text')

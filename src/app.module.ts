@@ -5,6 +5,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { MeliModule } from './meli/meli.module';
 import { ProductModule } from './product/product.module';
 import { CategoryModule } from './category/category.module';
+import { BookmarkModule } from './bookmark/bookmark.module';
+import { CustomNamingStrategy } from './naming-strategy';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   imports: [
@@ -21,10 +24,13 @@ import { CategoryModule } from './category/category.module';
       password: process.env.DB_PASSWORD,
       autoLoadEntities: true,
       synchronize: true,
+      namingStrategy: new CustomNamingStrategy(),
     }),
     MeliModule,
     ProductModule,
     CategoryModule,
+    BookmarkModule,
+    PassportModule,
   ],
   controllers: [],
   providers: [],

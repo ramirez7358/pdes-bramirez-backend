@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { Injectable, Logger } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MeliTokens } from './entities/meli-tokens.entity';
 import { Repository } from 'typeorm';
@@ -18,7 +18,8 @@ export class MeliService {
   private readonly logger = new Logger('MeliService');
 
   private readonly COUNTRY_CODE = 'MLA';
-  private readonly BASE_URL = `https://api.mercadolibre.com/sites/${this.COUNTRY_CODE}`;
+  private readonly BASE_URL = 'https://api.mercadolibre.com';
+  private readonly COUNTRY_BASE_URL = `${this.BASE_URL}/sites/${this.COUNTRY_CODE}`;
   private readonly AUTH_BASE_URL = 'https://api.mercadolibre.com/oauth/token';
 
   private accessToken: string;
@@ -33,6 +34,28 @@ export class MeliService {
     });
   }
 
+  async getProductById(productId: string): Promise<MeliProduct> {
+    try {
+      const observable = this.httpService
+        .get(`${this.BASE_URL}/items/${productId}`)
+        .pipe(map((response) => response.data));
+
+      const response = await firstValueFrom(observable);
+      return response;
+    } catch (error) {
+      if (error.response && error.response.status === 404) {
+        this.logger.error(`Product with id ${productId} not found`);
+        throw new HttpException('Product not found', HttpStatus.NOT_FOUND);
+      }
+
+      this.logger.error(`Failed to fetch product with id ${productId}`, error);
+      throw new HttpException(
+        'Failed to fetch product',
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
+  }
+
   async getProductsByCategory(
     categoryId: string,
     paginationDTO: PaginationDto,
@@ -40,7 +63,7 @@ export class MeliService {
     try {
       const observable = this.httpService
         .get(
-          `${this.BASE_URL}/search?category=${categoryId}&limit=${paginationDTO.limit}&offset=${paginationDTO.offset}`,
+          `${this.COUNTRY_BASE_URL}/search?category=${categoryId}&limit=${paginationDTO.limit}&offset=${paginationDTO.offset}`,
         )
         .pipe(map((response) => response.data));
 
@@ -56,7 +79,7 @@ export class MeliService {
   async getCategories(): Promise<Array<{ id: string; name: string }>> {
     try {
       const observable = this.httpService
-        .get(`${this.BASE_URL}/categories`)
+        .get(`${this.COUNTRY_BASE_URL}/categories`)
         .pipe(map((response) => response.data));
 
       const response = await firstValueFrom(observable);

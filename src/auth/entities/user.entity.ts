@@ -1,8 +1,10 @@
+import { Bookmark } from '../../bookmark/entities/';
 import {
   BeforeInsert,
   BeforeUpdate,
   Column,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -25,6 +27,9 @@ export class User {
 
   @Column('text', { array: true, default: ['buyer'] })
   roles: string[];
+
+  @OneToMany(() => Bookmark, (bookmark) => bookmark.user)
+  bookmarks: Bookmark[];
 
   @BeforeInsert()
   checkFieldsBeforeInsert() {

@@ -18,6 +18,10 @@ async function bootstrap() {
   const config = new DocumentBuilder()
     .setTitle('APC PDES RESTFull API')
     .setDescription('APC PDES Endpoints')
+    .addBearerAuth(
+      { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
+      'access-token',
+    )
     .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, config);

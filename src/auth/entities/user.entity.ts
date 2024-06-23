@@ -1,4 +1,4 @@
-import { Bookmark } from 'src/bookmark/entities/bookmark.entity';
+import { Bookmark } from '../../bookmark/entities/';
 import {
   BeforeInsert,
   BeforeUpdate,

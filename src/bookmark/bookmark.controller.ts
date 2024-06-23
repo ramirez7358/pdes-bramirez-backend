@@ -2,9 +2,9 @@ import { Body, Controller, Post } from '@nestjs/common';
 import { BookmarkService } from './bookmark.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CreateBookmarkDTO } from './dto';
-import { Auth, GetUser } from 'src/auth/decorators';
-import { User } from 'src/auth/entities/user.entity';
-import { ValidRoles } from 'src/auth/interfaces';
+import { Auth, GetUser } from '../auth/decorators';
+import { User } from '../auth/entities';
+import { ValidRoles } from '../auth/interfaces';
 
 @ApiTags('Bookmarks')
 @Controller('bookmark')

@@ -2,9 +2,9 @@ import { HttpStatus, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Bookmark } from './entities/bookmark.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/auth/entities/user.entity';
+import { User } from '../auth/entities';
 import { CreateBookmarkDTO } from './dto';
-import { MeliService } from 'src/meli/meli.service';
+import { MeliService } from '../meli/meli.service';
 
 @Injectable()
 export class BookmarkService {

@@ -1,5 +1,5 @@
 import { IsInt, Max, Min } from 'class-validator';
-import { User } from 'src/auth/entities/user.entity';
+import { User } from '../../auth/entities/';
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('bookmark')

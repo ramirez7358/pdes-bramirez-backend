@@ -28,23 +28,10 @@ jobs:
       - name: Run lint
         run: yarn lint
 
-      - name: Run tests
-        run: yarn test
+      - name: Run tests and coverage
+        run: yarn test --coverage
       - name: SonarQube Scan
+        uses: SonarSource/sonarqube-scan-action@master
         env:
           SONAR_HOST_URL: ${{ vars.SONAR_HOST_URL }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          yarn global add sonar-scanner
-          sonar-scanner \
-            -Dsonar.projectKey=APCPDES \
-            -Dsonar.organization=my_organization \
-            -Dsonar.sources=src \
-            -Dsonar.host.url=$SONAR_HOST_URL \
-            -Dsonar.login=$SONAR_TOKEN \
-            -Dsonar.exclusions=**/*.spec.ts,**/node_modules/**,**/dist/** \
-            -Dsonar.tests=src \
-            -Dsonar.test.inclusions=**/*.spec.ts \
-            -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info \
-            -Dsonar.testExecutionReportPaths=coverage/test-reporter.xml \
-            -X

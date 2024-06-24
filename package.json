@@ -86,16 +86,6 @@
       "**/*.(t|j)s"
     ],
     "coverageDirectory": "../coverage",
-    "testEnvironment": "node",
-    "reporters": [
-      "default",
-      [
-        "jest-sonar-reporter",
-        {
-          "outputDirectory": "coverage",
-          "outputName": "test-reporter.xml"
-        }
-      ]
-    ]
+    "testEnvironment": "node"
   }
 }

@@ -5,6 +5,8 @@ import { CreateBookmarkDTO } from './dto';
 import { User } from '../auth/entities';
 import { Bookmark } from './entities/bookmark.entity';
 import { HttpStatus } from '@nestjs/common';
+import chai, { expect } from 'chai';
+import sinon from 'sinon';
 
 describe('BookmarkController', () => {
   let controller: BookmarkController;
@@ -17,7 +19,7 @@ describe('BookmarkController', () => {
         {
           provide: BookmarkService,
           useValue: {
-            addBookMark: jest.fn(),
+            addBookMark: sinon.stub(),
           },
         },
       ],
@@ -28,7 +30,7 @@ describe('BookmarkController', () => {
   });
 
   it('should be defined', () => {
-    expect(controller).toBeDefined();
+    expect(controller).to.exist;
   });
 
   it('should create a bookmark', async () => {
@@ -53,11 +55,13 @@ describe('BookmarkController', () => {
       data: newBookmark,
     };
 
-    jest.spyOn(service, 'addBookMark').mockResolvedValue(result);
+    (service.addBookMark as sinon.SinonStub).resolves(result);
 
-    expect(await controller.createBookmark(createBookmarkDto, user)).toBe(
-      result,
+    const response = await controller.createBookmark(createBookmarkDto, user);
+    expect(response).to.deep.equal(result);
+    expect(service.addBookMark).to.have.been.calledWith(
+      createBookmarkDto,
+      user,
     );
-    expect(service.addBookMark).toHaveBeenCalledWith(createBookmarkDto, user);
   });
 });

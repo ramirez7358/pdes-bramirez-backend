@@ -3,10 +3,15 @@ import { BookmarkService } from './bookmark.service';
 import { Repository } from 'typeorm';
 import { Bookmark } from './entities/bookmark.entity';
 import { MeliService } from '../meli/meli.service';
-import { getRepositoryToken } from '@nestjs/typeorm';
+import { getRepositoryToken } from '@nestjs/typeorm'; // Importación de getRepositoryToken
 import { User } from 'src/auth/entities';
 import { CreateBookmarkDTO } from './dto';
 import { MeliProduct } from 'src/meli/interfaces/meli.interfaces';
+import chai, { expect } from 'chai';
+import sinon from 'sinon';
+import sinonChai from 'sinon-chai';
+
+chai.use(sinonChai);
 
 describe('BookmarkService', () => {
   let service: BookmarkService;
@@ -24,7 +29,7 @@ describe('BookmarkService', () => {
         {
           provide: MeliService,
           useValue: {
-            getProductById: jest.fn(),
+            getProductById: sinon.stub(),
           },
         },
       ],
@@ -36,7 +41,7 @@ describe('BookmarkService', () => {
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(service).to.exist;
   });
 
   it('should add a bookmark', async () => {
@@ -93,24 +98,24 @@ describe('BookmarkService', () => {
     };
     const user: User = { id: '1', bookmarks: [] } as User;
 
-    jest.spyOn(meliService, 'getProductById').mockResolvedValue(meliProduct);
-    jest.spyOn(repository, 'create').mockReturnValue(createBookmarkDto as any);
-    jest.spyOn(repository, 'save').mockResolvedValue(createBookmarkDto as any);
+    sinon.stub(meliService, 'getProductById').resolves(meliProduct);
+    sinon.stub(repository, 'create').returns(createBookmarkDto as any);
+    sinon.stub(repository, 'save').resolves(createBookmarkDto as any);
 
     const result = await service.addBookMark(createBookmarkDto, user);
-    expect(result).toEqual({
+    expect(result).to.deep.equal({
       statusCode: 200,
       message: 'Bookmark added successfully',
       data: createBookmarkDto,
     });
-    expect(meliService.getProductById).toHaveBeenCalledWith('123');
-    expect(repository.create).toHaveBeenCalledWith({
+    expect(meliService.getProductById).to.have.been.calledWith('123');
+    expect(repository.create).to.have.been.calledWith({
       meliProductId: '123',
       user,
       name: 'Test Product',
       comment: 'Great!',
       score: 10,
     });
-    expect(repository.save).toHaveBeenCalledWith(createBookmarkDto as any);
+    expect(repository.save).to.have.been.calledWith(createBookmarkDto as any);
   });
 });

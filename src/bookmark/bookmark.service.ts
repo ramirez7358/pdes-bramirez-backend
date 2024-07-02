@@ -14,7 +14,31 @@ export class BookmarkService {
     private readonly meliService: MeliService,
   ) {}
 
+  async getBookmarks(user: User) {
+    const bookmarks = await this.bookmarkRepository.find({
+      where: {
+        user,
+      },
+    });
+
+    return {
+      statusCode: HttpStatus.OK,
+      data: bookmarks,
+    };
+  }
+
   async addBookMark(createBookMarkDto: CreateBookmarkDTO, user: User) {
+    const bookmark = await this.bookmarkRepository.findOneBy({
+      meliProductId: createBookMarkDto.productId,
+    });
+
+    if (bookmark) {
+      return {
+        statusCode: HttpStatus.NOT_FOUND,
+        message: 'The product has already been added to bookmark',
+      };
+    }
+
     let meliProduct = await this.meliService.getProductById(
       createBookMarkDto.productId,
     );

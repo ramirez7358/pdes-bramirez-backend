@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post } from '@nestjs/common';
 import { BookmarkService } from './bookmark.service';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { CreateBookmarkDTO } from './dto';
@@ -19,5 +19,12 @@ export class BookmarkController {
     @GetUser() user: User,
   ) {
     return this.bookmarkService.addBookMark(createBookMarkDto, user);
+  }
+
+  @Get()
+  @ApiBearerAuth('access-token')
+  @Auth(ValidRoles.buyer)
+  async getBookmarks(@GetUser() user: User) {
+    return this.bookmarkService.getBookmarks(user);
   }
 }

@@ -1,5 +1,5 @@
 import { HttpService } from '@nestjs/axios';
-import { HttpException, HttpStatus, Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MeliTokens } from './entities/meli-tokens.entity';
 import { Repository } from 'typeorm';
@@ -34,7 +34,7 @@ export class MeliService {
     });
   }
 
-  async getProductById(productId: string): Promise<MeliProduct> {
+  async getProductById(productId: string): Promise<MeliProduct | undefined> {
     try {
       const observable = this.httpService
         .get(`${this.BASE_URL}/items/${productId}`)
@@ -44,15 +44,16 @@ export class MeliService {
       return response;
     } catch (error) {
       if (error.response && error.response.status === 404) {
-        this.logger.error(`Product with id ${productId} not found`);
-        throw new HttpException('Product not found', HttpStatus.NOT_FOUND);
+        this.logger.warn(`Product with id ${productId} not found`);
+        return;
+        //throw new HttpException('Product not found', HttpStatus.NOT_FOUND);
       }
 
       this.logger.error(`Failed to fetch product with id ${productId}`, error);
-      throw new HttpException(
+      /*throw new HttpException(
         'Failed to fetch product',
         HttpStatus.INTERNAL_SERVER_ERROR,
-      );
+      );*/
     }
   }
 

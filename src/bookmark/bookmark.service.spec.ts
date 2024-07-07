@@ -7,6 +7,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from 'src/auth/entities';
 import { CreateBookmarkDTO } from './dto';
 import { MeliProduct } from 'src/meli/interfaces/meli.interfaces';
+import { HttpStatus } from '@nestjs/common';
 
 describe('BookmarkService', () => {
   let service: BookmarkService;
@@ -96,6 +97,7 @@ describe('BookmarkService', () => {
     jest.spyOn(meliService, 'getProductById').mockResolvedValue(meliProduct);
     jest.spyOn(repository, 'create').mockReturnValue(createBookmarkDto as any);
     jest.spyOn(repository, 'save').mockResolvedValue(createBookmarkDto as any);
+    jest.spyOn(repository, 'findOneBy').mockResolvedValue(null);
 
     const result = await service.addBookMark(createBookmarkDto, user);
     expect(result).toEqual({
@@ -112,5 +114,75 @@ describe('BookmarkService', () => {
       score: 10,
     });
     expect(repository.save).toHaveBeenCalledWith(createBookmarkDto as any);
+  });
+
+  it('should return 404 if bookmark already exists', async () => {
+    const createBookmarkDto: CreateBookmarkDTO = {
+      productId: '123',
+      comment: 'Great!',
+      score: 10,
+    };
+    const user: User = { id: '1', bookmarks: [] } as User;
+
+    const existingBookmark: Bookmark = {
+      id: '1',
+      meliProductId: '123',
+      user,
+      name: 'Test Product',
+      comment: 'Existing Comment',
+      score: 9,
+    } as Bookmark;
+
+    jest.spyOn(repository, 'findOneBy').mockResolvedValue(existingBookmark);
+    jest.spyOn(repository, 'create');
+    jest.spyOn(repository, 'save');
+
+    const result = await service.addBookMark(createBookmarkDto, user);
+    expect(result).toEqual({
+      statusCode: HttpStatus.NOT_FOUND,
+      message: 'The product has already been added to bookmark',
+    });
+    expect(repository.findOneBy).toHaveBeenCalledWith({
+      meliProductId: createBookmarkDto.productId,
+    });
+    expect(meliService.getProductById).not.toHaveBeenCalled();
+    expect(repository.create).not.toHaveBeenCalled();
+    expect(repository.save).not.toHaveBeenCalled();
+  });
+
+  it('should return user bookmarks', async () => {
+    const user: User = { id: '1', bookmarks: [] } as User;
+
+    const bookmarks: Bookmark[] = [
+      {
+        id: '1',
+        meliProductId: '123',
+        user,
+        name: 'Test Product 1',
+        comment: 'Comment 1',
+        score: 8,
+      } as Bookmark,
+      {
+        id: '2',
+        meliProductId: '456',
+        user,
+        name: 'Test Product 2',
+        comment: 'Comment 2',
+        score: 9,
+      } as Bookmark,
+    ];
+
+    jest.spyOn(repository, 'find').mockResolvedValue(bookmarks);
+
+    const result = await service.getBookmarks(user);
+    expect(result).toEqual({
+      statusCode: HttpStatus.OK,
+      data: bookmarks,
+    });
+    expect(repository.find).toHaveBeenCalledWith({
+      where: {
+        user,
+      },
+    });
   });
 });

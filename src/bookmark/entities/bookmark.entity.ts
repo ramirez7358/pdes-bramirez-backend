@@ -13,7 +13,10 @@ export class Bookmark {
   @Column('varchar')
   name: string;
 
-  @Column('varchar')
+  @Column({
+    type: 'varchar',
+    unique: true,
+  })
   meliProductId: string;
 
   @Column('text')

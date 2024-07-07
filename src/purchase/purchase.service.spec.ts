@@ -1,6 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { PurchaseService } from './purchase.service';
-import { Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { MeliService } from '../meli/meli.service';
 import { Purchase } from './entities';
@@ -10,8 +9,6 @@ import { HttpException, HttpStatus } from '@nestjs/common';
 
 describe('PurchaseService', () => {
   let service: PurchaseService;
-  let purchaseRepository: Repository<Purchase>;
-  let meliService: MeliService;
 
   const mockPurchaseRepository = {
     create: jest.fn(),
@@ -39,10 +36,6 @@ describe('PurchaseService', () => {
     }).compile();
 
     service = module.get<PurchaseService>(PurchaseService);
-    purchaseRepository = module.get<Repository<Purchase>>(
-      getRepositoryToken(Purchase),
-    );
-    meliService = module.get<MeliService>(MeliService);
   });
 
   it('should be defined', () => {

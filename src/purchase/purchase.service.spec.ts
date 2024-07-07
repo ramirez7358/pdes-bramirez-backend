@@ -7,7 +7,6 @@ import { Purchase } from './entities';
 import { CreatePurchaseDTO } from './dto/create-purchase.dto';
 import { User } from '../auth/entities';
 import { HttpException, HttpStatus } from '@nestjs/common';
-import { AuthModule } from '../auth/auth.module';
 
 describe('PurchaseService', () => {
   let service: PurchaseService;

@@ -39,11 +39,11 @@ export class BookmarkService {
       };
     }
 
-    let meliProduct = await this.meliService.getProductById(
+    const meliProduct = await this.meliService.getProductById(
       createBookMarkDto.productId,
     );
 
-    let newBookMark = this.bookmarkRepository.create({
+    const newBookMark = this.bookmarkRepository.create({
       meliProductId: createBookMarkDto.productId,
       user,
       name: meliProduct.title,

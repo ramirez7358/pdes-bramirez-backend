@@ -1,1 +1,1 @@
-export { Purchase } from "./purchase.entity";
+export { Purchase } from './purchase.entity';

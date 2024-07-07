@@ -1,3 +1,4 @@
+import { Purchase } from '../../purchase/entities/purchase.entity';
 import { Bookmark } from '../../bookmark/entities/';
 import {
   BeforeInsert,
@@ -30,6 +31,9 @@ export class User {
 
   @OneToMany(() => Bookmark, (bookmark) => bookmark.user)
   bookmarks: Bookmark[];
+
+  @OneToMany(() => Purchase, (purchase) => purchase.user)
+  purchases: Purchase[];
 
   @BeforeInsert()
   checkFieldsBeforeInsert() {

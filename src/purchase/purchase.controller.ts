@@ -4,7 +4,7 @@ import { ApiBearerAuth } from '@nestjs/swagger';
 import { Auth, GetUser } from '../auth/decorators';
 import { ValidRoles } from '../auth/interfaces';
 import { CreatePurchaseDTO } from './dto';
-import { User } from 'src/auth/entities';
+import { User } from '../auth/entities';
 
 @Controller('purchase')
 export class PurchaseController {

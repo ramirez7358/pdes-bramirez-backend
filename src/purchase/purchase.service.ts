@@ -31,38 +31,32 @@ export class PurchaseService {
   }
 
   async createPurchase(createPurchaseDto: CreatePurchaseDTO, user: User) {
+    const meliProduct: MeliProduct | undefined =
+      await this.meliService.getProductById(createPurchaseDto.productId);
+
+    if (!meliProduct) {
+      this.logger.error(
+        `Product with id ${createPurchaseDto.productId} not found`,
+      );
+      throw new HttpException(
+        {
+          statusCode: HttpStatus.NOT_FOUND,
+          message: 'Product not found',
+        },
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    const newPurchase = this.purchaseRepository.create({
+      user,
+      meliId: createPurchaseDto.productId,
+      name: meliProduct.title,
+      price: meliProduct.price,
+      count: createPurchaseDto.count,
+    });
+
     try {
-      const meliProduct: MeliProduct | undefined =
-        await this.meliService.getProductById(createPurchaseDto.productId);
-
-      if (!meliProduct) {
-        this.logger.error(
-          `Product with id ${createPurchaseDto.productId} not found`,
-        );
-        throw new HttpException(
-          {
-            statusCode: HttpStatus.NOT_FOUND,
-            message: 'Product not found',
-          },
-          HttpStatus.NOT_FOUND,
-        );
-      }
-
-      const newPurchase = this.purchaseRepository.create({
-        user,
-        meliId: createPurchaseDto.productId,
-        name: meliProduct.title,
-        price: meliProduct.price,
-        count: createPurchaseDto.count,
-      });
-
       await this.purchaseRepository.save(newPurchase);
-
-      return {
-        statusCode: HttpStatus.OK,
-        message: 'Purchase added successfully',
-        data: newPurchase,
-      };
     } catch (error) {
       throw new HttpException(
         {
@@ -73,5 +67,11 @@ export class PurchaseService {
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
+
+    return {
+      statusCode: HttpStatus.OK,
+      message: 'Purchase added successfully',
+      data: newPurchase,
+    };
   }
 }

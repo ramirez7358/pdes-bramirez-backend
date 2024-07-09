@@ -15,7 +15,6 @@ export class Bookmark {
 
   @Column({
     type: 'varchar',
-    unique: true,
   })
   meliProductId: string;
 

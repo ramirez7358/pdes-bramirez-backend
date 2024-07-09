@@ -30,10 +30,10 @@ export class User {
   @Column('text', { array: true, default: ['buyer'] })
   roles: ValidRoles[];
 
-  @OneToMany(() => Bookmark, (bookmark) => bookmark.user)
+  @OneToMany(() => Bookmark, (bookmark) => bookmark.user, { cascade: true })
   bookmarks: Bookmark[];
 
-  @OneToMany(() => Purchase, (purchase) => purchase.user)
+  @OneToMany(() => Purchase, (purchase) => purchase.user, { cascade: true })
   purchases: Purchase[];
 
   @BeforeInsert()

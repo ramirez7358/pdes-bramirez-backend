@@ -7,5 +7,6 @@ import { MeliModule } from 'src/meli/meli.module';
   imports: [MeliModule],
   controllers: [CategoryController],
   providers: [CategoryService],
+  exports: [CategoryService],
 })
 export class CategoryModule {}

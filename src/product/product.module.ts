@@ -7,5 +7,6 @@ import { MeliModule } from 'src/meli/meli.module';
   imports: [MeliModule],
   controllers: [ProductController],
   providers: [ProductService],
+  exports: [ProductService],
 })
 export class ProductModule {}

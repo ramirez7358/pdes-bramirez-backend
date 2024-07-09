@@ -13,7 +13,7 @@ export class Purchase {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => User, (user) => user.purchases)
+  @ManyToOne(() => User, (user) => user.purchases, { onDelete: 'CASCADE' })
   user: User;
 
   @Column()

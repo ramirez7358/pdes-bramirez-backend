@@ -8,6 +8,7 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
+import { ValidRoles } from '../interfaces';
 
 @Entity('user')
 export class User {
@@ -27,12 +28,12 @@ export class User {
   isActive: boolean;
 
   @Column('text', { array: true, default: ['buyer'] })
-  roles: string[];
+  roles: ValidRoles[];
 
-  @OneToMany(() => Bookmark, (bookmark) => bookmark.user)
+  @OneToMany(() => Bookmark, (bookmark) => bookmark.user, { cascade: true })
   bookmarks: Bookmark[];
 
-  @OneToMany(() => Purchase, (purchase) => purchase.user)
+  @OneToMany(() => Purchase, (purchase) => purchase.user, { cascade: true })
   purchases: Purchase[];
 
   @BeforeInsert()

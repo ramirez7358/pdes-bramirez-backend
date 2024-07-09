@@ -9,6 +9,7 @@ import { BookmarkModule } from './bookmark/bookmark.module';
 import { CustomNamingStrategy } from './naming-strategy';
 import { PassportModule } from '@nestjs/passport';
 import { PurchaseModule } from './purchase/purchase.module';
+import { SeedModule } from './seed/seed.module';
 
 @Module({
   imports: [
@@ -33,6 +34,7 @@ import { PurchaseModule } from './purchase/purchase.module';
     BookmarkModule,
     PassportModule,
     PurchaseModule,
+    SeedModule,
   ],
   controllers: [],
   providers: [],

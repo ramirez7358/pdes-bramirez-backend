@@ -4,6 +4,7 @@ import { PurchaseService } from './purchase.service';
 import { CreatePurchaseDTO } from './dto/create-purchase.dto';
 import { User } from '../auth/entities';
 import { HttpException, HttpStatus } from '@nestjs/common';
+import { ValidRoles } from '../auth/interfaces';
 
 describe('PurchaseController', () => {
   let controller: PurchaseController;
@@ -40,7 +41,7 @@ describe('PurchaseController', () => {
       password: 'password',
       fullName: 'Test User',
       isActive: true,
-      roles: ['buyer'],
+      roles: [ValidRoles.buyer],
       bookmarks: [],
       purchases: [],
       checkFieldsBeforeInsert: jest.fn(),
@@ -97,7 +98,7 @@ describe('PurchaseController', () => {
       password: 'password',
       fullName: 'Test User',
       isActive: true,
-      roles: ['buyer'],
+      roles: [ValidRoles.buyer],
       bookmarks: [],
       purchases: [],
       checkFieldsBeforeInsert: jest.fn(),

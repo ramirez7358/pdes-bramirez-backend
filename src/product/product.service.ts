@@ -10,9 +10,15 @@ export class ProductService {
     categoryId: string,
     paginationDTO: PaginationDto,
   ) {
-    return await this.meliService.getProductsByCategory(
+    const products = await this.meliService.getProductsByCategory(
       categoryId,
       paginationDTO,
     );
+
+    const productsDetailPromises = products.map((p) =>
+      this.meliService.getProductById(p.id),
+    );
+
+    return await Promise.all(productsDetailPromises);
   }
 }

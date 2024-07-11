@@ -20,7 +20,7 @@ export class PurchaseService {
   async getPurchases(user: User) {
     const purchases = await this.purchaseRepository.find({
       where: {
-        user,
+        user: {id: user.id},
       },
       order: {
         created_at: 'desc',

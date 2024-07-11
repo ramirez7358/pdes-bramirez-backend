@@ -2,6 +2,7 @@ import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { PaginationDto } from '../common/pagination.dto';
 import { ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { CriteriaDto } from './dto';
 
 @ApiTags('Products')
 @Controller('product')
@@ -21,8 +22,8 @@ export class ProductController {
   @Get('/:category_id')
   async getCategories(
     @Param('category_id') categoryId: string,
-    @Query() paginationDTO: PaginationDto,
+    @Query() criteria: CriteriaDto,
   ) {
-    return this.productService.getProductsByCategory(categoryId, paginationDTO);
+    return this.productService.getProductsByCategory(categoryId, criteria);
   }
 }

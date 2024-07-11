@@ -60,11 +60,12 @@ export class MeliService {
   async getProductsByCategory(
     categoryId: string,
     paginationDTO: PaginationDto,
+    keyword: string,
   ): Promise<Array<MeliProduct>> {
     try {
       const observable = this.httpService
         .get(
-          `${this.COUNTRY_BASE_URL}/search?category=${categoryId}&limit=${paginationDTO.limit}&offset=${paginationDTO.offset}`,
+          `${this.COUNTRY_BASE_URL}/search?category=${categoryId}&limit=${paginationDTO.limit}&offset=${paginationDTO.offset}&q=${keyword}`,
         )
         .pipe(map((response) => response.data));
 

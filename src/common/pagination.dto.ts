@@ -7,17 +7,17 @@ export class PaginationDto {
     default: 10,
     description: 'How many elements do you need',
   })
-  @IsOptional()
+  //@IsOptional()
   @IsPositive()
   @Type(() => Number) // enableImplicitConversions: true
-  limit?: number;
+  limit: number;
 
   @ApiProperty({
     default: 0,
     description: 'How many elements do you want to skip',
   })
-  @IsOptional()
+  //@IsOptional()
   @Min(0)
   @Type(() => Number) // enableImplicitConversions: true
-  offset?: number;
+  offset: number;
 }

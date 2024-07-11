@@ -1,6 +1,5 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
 import { ProductService } from './product.service';
-import { PaginationDto } from '../common/pagination.dto';
 import { ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { CriteriaDto } from './dto';
 

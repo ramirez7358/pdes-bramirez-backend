@@ -36,7 +36,9 @@ export class SeedService {
       productIds: string[],
       generatorFunction: (user: User, productIds: string[]) => T[],
     ): T[] => {
-      return users.flatMap((user) => generatorFunction(user, Array.from(new Set(productIds))));
+      return users.flatMap((user) =>
+        generatorFunction(user, Array.from(new Set(productIds))),
+      );
     };
 
     const bookmarksEntities = generateEntities(

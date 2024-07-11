@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { PaginationDto } from 'src/common/pagination.dto';
 import { MeliService } from '../meli/meli.service';
 import { CriteriaDto } from './dto';
 

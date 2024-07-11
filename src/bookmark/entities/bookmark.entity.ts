@@ -2,6 +2,7 @@ import { IsInt, Max, Min } from 'class-validator';
 import { User } from '../../auth/entities/';
 import {
   Column,
+  CreateDateColumn,
   Entity,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -37,4 +38,10 @@ export class Bookmark {
   @Min(1)
   @Max(10)
   score: number;
+
+  @CreateDateColumn({
+    type: 'timestamp',
+    default: () => 'CURRENT_TIMESTAMP(6)',
+  })
+  created_at: Date;
 }

@@ -1,4 +1,4 @@
-import { HttpStatus, Injectable } from '@nestjs/common';
+import { ConflictException, ForbiddenException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Bookmark } from './entities/bookmark.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -14,10 +14,31 @@ export class BookmarkService {
     private readonly meliService: MeliService,
   ) {}
 
+  async deleteBookmark(bookmarkId: string, user: User) {
+    const bookmark = await this.bookmarkRepository.findOne({ where: { id: bookmarkId, user: { id: user.id } }, relations: ['user'] });
+
+    if (!bookmark) {
+      throw new NotFoundException(`Bookmark with id ${bookmarkId} not found`);
+    }
+
+    if (bookmark.user.id !== user.id) {
+      throw new ForbiddenException('You are not authorized to delete this bookmark');
+    }
+
+    await this.bookmarkRepository.remove(bookmark);
+
+    return {
+      statusCode: HttpStatus.OK
+    }
+  }
+
   async getBookmarks(user: User) {
     const bookmarks = await this.bookmarkRepository.find({
       where: {
         user,
+      },
+      order: {
+        created_at: 'desc',
       },
     });
 
@@ -33,10 +54,7 @@ export class BookmarkService {
     });
 
     if (bookmark) {
-      return {
-        statusCode: HttpStatus.NOT_FOUND,
-        message: 'The product has already been added to bookmark',
-      };
+      throw new ConflictException('The product has already been added to bookmark');
     }
 
     const meliProduct = await this.meliService.getProductById(

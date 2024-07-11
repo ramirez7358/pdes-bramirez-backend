@@ -24,7 +24,18 @@ export class User {
   @Column('text', { name: 'full_name' })
   fullName: string;
 
-  @Column({ type: 'integer', default: 1 })
+  @Column({
+    type: 'integer',
+    default: 1,
+    transformer: {
+      to(value: boolean): number {
+        return value ? 1 : 0;
+      },
+      from(value: number): boolean {
+        return value === 1;
+      },
+    },
+  })
   isActive: boolean;
 
   @Column('simple-array', { default: 'buyer' })

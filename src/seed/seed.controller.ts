@@ -9,7 +9,7 @@ export class SeedController {
   constructor(private readonly seedService: SeedService) {}
 
   @ApiBearerAuth('access-token')
-  @Auth(ValidRoles.buyer)
+  @Auth(ValidRoles.admin)
   @Get()
   executeSeed() {
     return this.seedService.executeSeed();

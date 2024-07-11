@@ -21,16 +21,14 @@ export class Bookmark {
   @Column('varchar')
   name: string;
 
-  @Column({
-    type: 'varchar',
-  })
+  @Column('varchar')
   meliProductId: string;
 
   @Column('text')
   comment: string;
 
   @Column({
-    type: 'int',
+    type: 'integer',
     default: 1,
     unsigned: true,
   })
@@ -39,9 +37,6 @@ export class Bookmark {
   @Max(10)
   score: number;
 
-  @CreateDateColumn({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP(6)',
-  })
+  @CreateDateColumn()
   created_at: Date;
 }

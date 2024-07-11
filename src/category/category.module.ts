@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CategoryService } from './category.service';
 import { CategoryController } from './category.controller';
-import { MeliModule } from 'src/meli/meli.module';
+import { MeliModule } from '../meli/meli.module';
 
 @Module({
   imports: [MeliModule],

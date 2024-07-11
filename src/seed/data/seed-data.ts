@@ -1,7 +1,7 @@
-import { User } from 'src/auth/entities';
-import { ValidRoles } from 'src/auth/interfaces';
-import { Bookmark } from 'src/bookmark/entities';
-import { Purchase } from 'src/purchase/entities';
+import { User } from '../../auth/entities';
+import { ValidRoles } from '../../auth/interfaces';
+import { Bookmark } from '../../bookmark/entities';
+import { Purchase } from '../../purchase/entities';
 import { v4 as uuidv4 } from 'uuid';
 import * as bcrypt from 'bcrypt';
 

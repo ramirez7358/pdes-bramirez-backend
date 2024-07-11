@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { CustomLoggerService } from './common/CustomLoggerService';
 
@@ -8,7 +8,7 @@ async function bootstrap() {
   const logger = new CustomLoggerService();
   const app = await NestFactory.create(AppModule, {
     cors: true,
-    logger
+    logger,
   });
   app.setGlobalPrefix('api/v1');
 
@@ -21,7 +21,7 @@ async function bootstrap() {
   );
 
   const config = new DocumentBuilder()
-    .setTitle('APC PDES RESTFull API')
+    .setTitle('APC PDES RESTFULL API')
     .setDescription('APC PDES Endpoint')
     .addBearerAuth(
       { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },
@@ -31,7 +31,6 @@ async function bootstrap() {
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('swagger', app, document);
-
   await app.listen(process.env.PORT);
   logger.log(`App running on port ${process.env.PORT}`);
 }

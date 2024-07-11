@@ -41,7 +41,7 @@ import { CustomLoggerService } from './common/CustomLoggerService';
     SeedModule,
     ReportModule,
     PrometheusModule.register(),
-    HttpModule
+    HttpModule,
   ],
   controllers: [],
   providers: [CustomLoggerService],

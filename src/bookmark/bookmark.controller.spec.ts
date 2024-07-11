@@ -45,6 +45,7 @@ describe('BookmarkController', () => {
       meliProductId: '123',
       comment: 'Great!',
       score: 10,
+      created_at: new Date(),
     };
 
     const result = {

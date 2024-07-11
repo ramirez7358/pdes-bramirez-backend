@@ -7,7 +7,7 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from 'src/auth/entities';
 import { CreateBookmarkDTO } from './dto';
 import { MeliProduct } from 'src/meli/interfaces/meli.interfaces';
-import { HttpStatus } from '@nestjs/common';
+import { ConflictException, HttpStatus } from '@nestjs/common';
 
 describe('BookmarkService', () => {
   let service: BookmarkService;
@@ -116,7 +116,7 @@ describe('BookmarkService', () => {
     expect(repository.save).toHaveBeenCalledWith(createBookmarkDto as any);
   });
 
-  it('should return 404 if bookmark already exists', async () => {
+  it('should return 409 if bookmark already exists', async () => {
     const createBookmarkDto: CreateBookmarkDTO = {
       productId: '123',
       comment: 'Great!',
@@ -131,17 +131,23 @@ describe('BookmarkService', () => {
       name: 'Test Product',
       comment: 'Existing Comment',
       score: 9,
+      created_at: new Date(),
     } as Bookmark;
 
     jest.spyOn(repository, 'findOneBy').mockResolvedValue(existingBookmark);
     jest.spyOn(repository, 'create');
     jest.spyOn(repository, 'save');
 
-    const result = await service.addBookMark(createBookmarkDto, user);
-    expect(result).toEqual({
-      statusCode: HttpStatus.NOT_FOUND,
-      message: 'The product has already been added to bookmark',
-    });
+    try {
+      await service.addBookMark(createBookmarkDto, user);
+    } catch (error) {
+      expect(error).toBeInstanceOf(ConflictException);
+      expect(error.message).toEqual(
+        'The product has already been added to bookmark',
+      );
+      expect(error.getStatus()).toBe(HttpStatus.CONFLICT);
+    }
+
     expect(repository.findOneBy).toHaveBeenCalledWith({
       meliProductId: createBookmarkDto.productId,
     });
@@ -161,6 +167,7 @@ describe('BookmarkService', () => {
         name: 'Test Product 1',
         comment: 'Comment 1',
         score: 8,
+        created_at: new Date(),
       } as Bookmark,
       {
         id: '2',
@@ -169,6 +176,7 @@ describe('BookmarkService', () => {
         name: 'Test Product 2',
         comment: 'Comment 2',
         score: 9,
+        created_at: new Date(),
       } as Bookmark,
     ];
 
@@ -182,6 +190,9 @@ describe('BookmarkService', () => {
     expect(repository.find).toHaveBeenCalledWith({
       where: {
         user,
+      },
+      order: {
+        created_at: 'desc',
       },
     });
   });

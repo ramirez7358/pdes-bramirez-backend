@@ -22,6 +22,9 @@ export class PurchaseService {
       where: {
         user,
       },
+      order: {
+        created_at: 'desc',
+      },
     });
 
     return {

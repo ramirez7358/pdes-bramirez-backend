@@ -3,6 +3,7 @@ import {
   ForbiddenException,
   HttpStatus,
   Injectable,
+  Logger,
   NotFoundException,
 } from '@nestjs/common';
 import { Repository } from 'typeorm';
@@ -14,6 +15,7 @@ import { MeliService } from '../meli/meli.service';
 
 @Injectable()
 export class BookmarkService {
+  private readonly logger = new Logger('BookmarkService');
   constructor(
     @InjectRepository(Bookmark)
     private readonly bookmarkRepository: Repository<Bookmark>,
@@ -46,12 +48,14 @@ export class BookmarkService {
   async getBookmarks(user: User) {
     const bookmarks = await this.bookmarkRepository.find({
       where: {
-        user,
+        user: { id: user.id },
       },
       order: {
         created_at: 'desc',
       },
     });
+
+    this.logger.log(`${bookmarks.length} products was found!`);
 
     return {
       statusCode: HttpStatus.OK,

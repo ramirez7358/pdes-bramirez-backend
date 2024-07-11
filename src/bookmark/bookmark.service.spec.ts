@@ -189,7 +189,7 @@ describe('BookmarkService', () => {
     });
     expect(repository.find).toHaveBeenCalledWith({
       where: {
-        user,
+        user: { id: user.id },
       },
       order: {
         created_at: 'desc',

@@ -46,7 +46,9 @@ describe('AuthController (e2e)', () => {
     app.useGlobalPipes(new ValidationPipe()); // Asegúrate de usar ValidationPipe
     await app.init();
 
-    userRepository = moduleFixture.get<Repository<User>>(getRepositoryToken(User));
+    userRepository = moduleFixture.get<Repository<User>>(
+      getRepositoryToken(User),
+    );
   });
 
   afterAll(async () => {
@@ -88,13 +90,11 @@ describe('AuthController (e2e)', () => {
   describe('/auth/login (POST)', () => {
     it('should login an existing user', async () => {
       // First, register a user
-      await request(app.getHttpServer())
-        .post('/auth/register')
-        .send({
-          email: 'test@example.com',
-          password: 'Password123',
-          fullName: 'Test User', // Asegúrate de enviar fullName
-        });
+      await request(app.getHttpServer()).post('/auth/register').send({
+        email: 'test@example.com',
+        password: 'Password123',
+        fullName: 'Test User', // Asegúrate de enviar fullName
+      });
 
       // Then, try to login
       return request(app.getHttpServer())

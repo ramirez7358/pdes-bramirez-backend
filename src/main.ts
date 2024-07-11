@@ -21,7 +21,7 @@ async function bootstrap() {
   );
 
   const config = new DocumentBuilder()
-    .setTitle('APC PDES RESTFull API')
+    .setTitle('APC PDES RESTFULL API')
     .setDescription('APC PDES Endpoint')
     .addBearerAuth(
       { type: 'http', scheme: 'bearer', bearerFormat: 'JWT' },

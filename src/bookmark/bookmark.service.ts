@@ -55,9 +55,7 @@ export class BookmarkService {
       },
     });
 
-    this.logger.log(
-      `${bookmarks.length} products was found!`,
-    );
+    this.logger.log(`${bookmarks.length} products was found!`);
 
     return {
       statusCode: HttpStatus.OK,

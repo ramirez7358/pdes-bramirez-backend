@@ -8,8 +8,8 @@ import { ValidRoles } from '../auth/interfaces';
 export class SeedController {
   constructor(private readonly seedService: SeedService) {}
 
-  //@ApiBearerAuth('access-token')
-  //@Auth(ValidRoles.buyer)
+  @ApiBearerAuth('access-token')
+  @Auth(ValidRoles.buyer)
   @Get()
   executeSeed() {
     return this.seedService.executeSeed();

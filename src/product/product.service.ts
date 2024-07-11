@@ -1,18 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { PaginationDto } from 'src/common/pagination.dto';
 import { MeliService } from '../meli/meli.service';
+import { CriteriaDto } from './dto';
 
 @Injectable()
 export class ProductService {
   constructor(private readonly meliService: MeliService) {}
 
-  async getProductsByCategory(
-    categoryId: string,
-    paginationDTO: PaginationDto,
-  ) {
+  async getProductsByCategory(categoryId: string, criteria: CriteriaDto) {
     const products = await this.meliService.getProductsByCategory(
       categoryId,
-      paginationDTO,
+      {
+        offset: criteria.offset,
+        limit: criteria.limit,
+      },
+      criteria.keyword,
     );
 
     const productsDetailPromises = products.map((p) =>

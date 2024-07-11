@@ -11,6 +11,7 @@ import { PassportModule } from '@nestjs/passport';
 import { PurchaseModule } from './purchase/purchase.module';
 import { SeedModule } from './seed/seed.module';
 import { ReportModule } from './report/report.module';
+import { PrometheusModule } from '@willsoto/nestjs-prometheus';
 
 @Module({
   imports: [
@@ -37,6 +38,7 @@ import { ReportModule } from './report/report.module';
     PurchaseModule,
     SeedModule,
     ReportModule,
+    PrometheusModule.register()
   ],
   controllers: [],
   providers: [],

@@ -2,10 +2,14 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { CustomLoggerService } from './common/CustomLoggerService';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, { cors: true });
-  const logger = new Logger('Bootstrap');
+  const logger = new CustomLoggerService();
+  const app = await NestFactory.create(AppModule, {
+    cors: true,
+    logger
+  });
   app.setGlobalPrefix('api/v1');
 
   app.useGlobalPipes(

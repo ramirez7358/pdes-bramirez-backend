@@ -12,6 +12,8 @@ import { PurchaseModule } from './purchase/purchase.module';
 import { SeedModule } from './seed/seed.module';
 import { ReportModule } from './report/report.module';
 import { PrometheusModule } from '@willsoto/nestjs-prometheus';
+import { HttpModule } from '@nestjs/axios';
+import { CustomLoggerService } from './common/CustomLoggerService';
 
 @Module({
   imports: [
@@ -38,9 +40,10 @@ import { PrometheusModule } from '@willsoto/nestjs-prometheus';
     PurchaseModule,
     SeedModule,
     ReportModule,
-    PrometheusModule.register()
+    PrometheusModule.register(),
+    HttpModule
   ],
   controllers: [],
-  providers: [],
+  providers: [CustomLoggerService],
 })
 export class AppModule {}

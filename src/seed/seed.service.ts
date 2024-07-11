@@ -5,9 +5,9 @@ import { Bookmark } from '../bookmark/entities';
 import { Purchase } from '../purchase/entities';
 import { Repository } from 'typeorm';
 import { bookmarks, purchases, users } from './data/seed-data';
-import { CategoryService } from 'src/category/category.service';
-import { ProductService } from 'src/product/product.service';
-import { ValidRoles } from 'src/auth/interfaces';
+import { CategoryService } from '../category/category.service';
+import { ProductService } from '../product/product.service';
+import { ValidRoles } from '../auth/interfaces';
 
 @Injectable()
 export class SeedService {

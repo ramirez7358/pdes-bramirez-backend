@@ -6,8 +6,8 @@ export let errorRate = new Rate('errors');
 
 export let options = {
   stages: [
-    { duration: '30s', target: 10 }, // 10 users for 30 seconds
-    { duration: '1m', target: 20 }, // 20 users for 1 minute
+    { duration: '30s', target: 100 }, // 10 users for 30 seconds
+    { duration: '1m', target: 50 }, // 20 users for 1 minute
     { duration: '30s', target: 0 }, // Ramp down to 0 users
   ],
   thresholds: {
@@ -18,7 +18,7 @@ export let options = {
 
 // Function to get the JWT token
 function getToken() {
-  const loginUrl = 'http://localhost:3000/api/v1/auth/login';
+  const loginUrl = 'https://pdes-bramirez-backend-production.up.railway.app/api/v1/auth/login';
   const payload = JSON.stringify({
     username: 'user2@example.com',
     password: 'password2',

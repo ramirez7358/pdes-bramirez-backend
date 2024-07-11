@@ -24,10 +24,10 @@ export class User {
   @Column('text', { name: 'full_name' })
   fullName: string;
 
-  @Column('bool', { name: 'is_active', default: true })
+  @Column({ type: 'integer', default: 1 })
   isActive: boolean;
 
-  @Column('text', { array: true, default: ['buyer'] })
+  @Column('simple-array', { default: 'buyer' })
   roles: ValidRoles[];
 
   @OneToMany(() => Bookmark, (bookmark) => bookmark.user, { cascade: true })

@@ -16,28 +16,21 @@ export class Purchase {
   @ManyToOne(() => User, (user) => user.purchases, { onDelete: 'CASCADE' })
   user: User;
 
-  @Column()
+  @Column('varchar')
   meliId: string;
 
-  @Column()
+  @Column('varchar')
   name: string;
 
   @Column('decimal')
   price: number;
 
-  @Column()
+  @Column('integer')
   count: number;
 
-  @CreateDateColumn({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP(6)',
-  })
+  @CreateDateColumn()
   created_at: Date;
 
-  @UpdateDateColumn({
-    type: 'timestamp',
-    default: () => 'CURRENT_TIMESTAMP(6)',
-    onUpdate: 'CURRENT_TIMESTAMP(6)',
-  })
+  @UpdateDateColumn()
   updated_at: Date;
 }

@@ -10,6 +10,7 @@ import { CustomNamingStrategy } from './naming-strategy';
 import { PassportModule } from '@nestjs/passport';
 import { PurchaseModule } from './purchase/purchase.module';
 import { SeedModule } from './seed/seed.module';
+import { ReportModule } from './report/report.module';
 
 @Module({
   imports: [
@@ -35,6 +36,7 @@ import { SeedModule } from './seed/seed.module';
     PassportModule,
     PurchaseModule,
     SeedModule,
+    ReportModule,
   ],
   controllers: [],
   providers: [],
